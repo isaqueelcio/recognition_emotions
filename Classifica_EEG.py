@@ -7,7 +7,7 @@ import pickle
 
 
 
-dfeeg = pd.read_excel('Amostras//amostra_ID1_VD2_UI4.xlsx', sheet_name = 'Sheet1')
+dfeeg = pd.read_excel('Amostras//amostra_ID1_VD1_UI3.xlsx', sheet_name = 'Sheet1')
 
 #####Delta
 lda_deltaa = pickle.load(open('classificador//lda//lda_delta3.sav', 'rb'))
@@ -210,8 +210,8 @@ print("\n Teste GSR Fim")
 lda_ecg = pickle.load(open('classificador//lda_ecg.sav', 'rb'))
 ecg_classificador = pickle.load(open('classificador//ecg_classificador.sav', 'rb'))
 
-ecgaa = 3000
-ecgi = 0
+ecgaa = 1025
+ecgi = 5
 
 
 
@@ -219,7 +219,7 @@ print("\n Teste GSR inicio")
 
 while ecgaa <= tamanhoamostra:
     #GSR
-    sinalecg = dfeeg.iloc[14:15, gsri:gsraa]
+    sinalecg = dfeeg.iloc[14:15, ecgi:ecgaa]
     
     #sinalgsr = sinalgsr.div(sinalgsr.max(axis=1), axis=0)
     
@@ -227,13 +227,13 @@ while ecgaa <= tamanhoamostra:
     sinalecg = sinalecg.astype(float)
     
     ecg = lda_ecg.transform(sinalecg)
-    previsoesecg = gsr_classificador.predict(ecg)
+    previsoesecg = ecg_classificador.predict(ecg)
     #Final GSR
     
-    print("GSR", previsoesdelta)
+    print("ECG", previsoesecg)
     
-    gsri= gsri+500
-    gsraa = gsraa+500
+    ecgi= ecgi+500
+    ecgaa = ecgaa+500
     total = 0
 
 
